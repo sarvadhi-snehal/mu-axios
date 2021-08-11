@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
-    flexDirection: 'column',
+    flexWrap: 'wrap',
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -14,24 +14,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DateAndTimePickers() {
+export default function DatePickers() {
   const classes = useStyles();
 
   return (
-  
     <form className={classes.container} noValidate>
       <TextField
-        id="datetime-local"
-        label="Reporting Date"
-        type="datetime-local"
-        defaultValue="2017-05-24T10:30"
+        id="date"
+        label="Birthday"
+        type="date"
+        defaultValue="2017-05-24"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
       />
-    <label htmlFor="datetime-local">Select date above</label>
     </form>
-
   );
 }

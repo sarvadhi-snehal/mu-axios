@@ -1,37 +1,41 @@
 import "./App.css";
-
+import { ThemeProvider } from '@material-ui/core/styles';
 import { Route, Switch } from "react-router-dom";
+
+//themes
+import theme from "./Thems/theme"
+
 //main poages
 import NoMatch from "./pages/NoMatch";
 import Dashboard from "./pages/Dashboard";
-import GenralThings from "./pages/GenralThings";
-import TravelTypes from "./pages/TravelTypes";
-import Travells from './pages/Travells'
+import CreateBlog from "./pages/CreateBlog";
+import Home from './pages/Home'
 
 //component import
 import Header from "./components/Header/Header";
 function App() {
   return (
+    <ThemeProvider value={theme} >
+
     <div className="App">
       <Header />
       <Switch>
         <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/dashboard">
           <Dashboard />
         </Route>
-        <Route path="/genralthings">
-          <GenralThings />
+        <Route path="/createBlog">
+          <CreateBlog />
         </Route>
-        <Route path="/traveltypes">
-          <TravelTypes />
-        </Route>
-        <Route path="/travells">
-          <Travells />
-        </Route>
+        
         <Route path="*">
           <NoMatch />
         </Route>
       </Switch>
     </div>
+    </ThemeProvider>
   );
 }
 
