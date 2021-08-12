@@ -8,8 +8,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,24 +41,23 @@ export default function ButtonAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">logo</Typography>
-          <Box display="flex" className={classes.title} justifyContent="flex-end">
-
-          <IconButton
-            color="inherit"
-            
-            >
-            <Badge badgeContent={0} color="secondary">
-              <Brightness4Icon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={0} color="secondary">
-              <ExitToAppIcon />
-            </Badge>
-          </IconButton>
-          
-            </Box>
+          <Typography variant="h6">Airbnb listings and reviews</Typography>
+          <Box
+            display="flex"
+            className={classes.title}
+            justifyContent="flex-end"
+          >
+            <IconButton color="inherit">
+              <Badge badgeContent={0} color="secondary">
+                <Brightness4Icon />
+              </Badge>
+            </IconButton>
+            <IconButton color="inherit">
+              <Badge badgeContent={0} color="secondary">
+                <ExitToAppIcon />
+              </Badge>
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
     </div>

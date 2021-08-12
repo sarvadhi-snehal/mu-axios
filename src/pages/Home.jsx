@@ -1,10 +1,10 @@
 import React from 'react'
-import BlogList from  '../components/TravelDetails/BlogList'
+import ReviewList from  '../components/ReviewList/ReviewList'
 
 function Travells() {
     return (
         <div>
-            <BlogList/>
+            <ReviewList/>
         </div>
     )
 }
