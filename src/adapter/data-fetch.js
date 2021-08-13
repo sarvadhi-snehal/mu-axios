@@ -1,10 +1,11 @@
 import React from 'react'
-function Dashboard() {
+
+function useFetch() {
     return (
         <div>
-         
+            
         </div>
     )
 }
 
-export default Dashboard
+export default useFetch
