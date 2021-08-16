@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-
+import { createContext, useState,useEffect,useCallback} from "react";
+let logOutTimer;
 const AuthContext = createContext({
   token: "",
   isLogin: false,
@@ -13,22 +13,48 @@ const calcRemainingTime = (expTime) =>{
     const remainingTime = adiExpTime - currentTime;
     return remainingTime
 }
+const getStoredToken =()=>{
+    const initialToken = localStorage.getItem('token');
+    const storedExpTime = localStorage.getItem('expTime');
+
+    const remainingTime = calcRemainingTime(storedExpTime);
+    if(remainingTime <= 3600){
+        localStorage.removeItem('token');
+        localStorage.removeItem('expTime');
+        return null;
+    }
+    return {
+        token : initialToken,
+        tokenDuration : remainingTime
+    };
+}
 
 export const StoreProvider = (props) => {
-    let initialState = localStorage.getItem('token')
-    const [token, setToken] = useState(initialState);
+    const tokenData = getStoredToken();
+
+    let initialToken;
+    if(tokenData){
+        initialToken = tokenData.token
+    }
+
+    const [token, setToken] = useState(initialToken);
 
   const userIsLogin = !!token;
   const logInHandler = (token, expTime) => {
     setToken(token);
-    localStorage.setItem('token', token)
+    localStorage.setItem('token', token);
+    localStorage.setItem('expTime', expTime)
     let remainingTime = calcRemainingTime(expTime);
-    setTimeout(logOutHandler,3000);
+    logOutTimer : setTimeout(logOutHandler,remainingTime);
   };
-  const logOutHandler = () => {
+  const logOutHandler = useCallback(() => {
     setToken(null);
     localStorage.removeItem('token');
-  };
+    localStorage.removeItem('expTime')
+    if(logOutTimer){
+        clearTimeout(logOutTimer);
+    }
+  },[]);
 
   const contextValue = {
     token,
@@ -36,6 +62,13 @@ export const StoreProvider = (props) => {
     login: logInHandler,
     logout: logOutHandler,
   };
+
+  useEffect(() => {
+    if(tokenData){
+        console.log(tokenData.tokenDuration);
+        logOutTimer = setTimeout(logOutHandler, tokenData.tokenDuration)
+    }
+  },[tokenData, logOutHandler])
 
   return (
     <AuthContext.Provider value={contextValue}>
