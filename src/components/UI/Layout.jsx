@@ -1,7 +1,7 @@
-import React,{useState} from "react";
-import {makeStyles,useTheme} from "@material-ui/core";
+import {useState} from "react";
+import {makeStyles} from "@material-ui/core";
 import Drawer from '../Drawer/Drawer'
-import clsx from 'clsx';
+
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme)=>({
@@ -17,11 +17,12 @@ const useStyles = makeStyles((theme)=>({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+
 }))
 
 export default function Layout({ children }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
  
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -33,8 +34,10 @@ export default function Layout({ children }) {
 
   return (
     <div className={classes.root}>
+
       <Drawer handleDrawerOpen={handleDrawerOpen } handleDrawerClose={handleDrawerClose} open={open} drawerWidth={drawerWidth} />
       <main className={classes.content}>
+  
         <div className={classes.toolbar} />
          {children}
       </main>

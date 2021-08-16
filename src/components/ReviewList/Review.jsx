@@ -7,14 +7,13 @@
   import CardContent from "@material-ui/core/CardContent";
   import CardActions from "@material-ui/core/CardActions";
 
-  import Avatar from "@material-ui/core/Avatar";
+
   import IconButton from "@material-ui/core/IconButton";
   import Typography from "@material-ui/core/Typography";
   import { red } from "@material-ui/core/colors";
   import FavoriteIcon from "@material-ui/icons/Favorite";
   import ShareIcon from "@material-ui/icons/Share";
-  import Button from "@material-ui/core/Button";
-  import MoreVertIcon from "@material-ui/icons/MoreVert";
+
   import DeleteIcon from "@material-ui/icons/Delete";
   const useStyles = makeStyles((theme) => ({
  
@@ -45,7 +44,7 @@
     body,
   }) {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+    // const [expanded, setExpanded] = React.useState(false);
 
     return (
       <Card className={classes.root}>
