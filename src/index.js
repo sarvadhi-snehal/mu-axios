@@ -7,8 +7,16 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./Themes/theme";
 import {StoreProvider} from "./store/authStore";
+import { config } from "./config";
+import firebase from "firebase/app";
+import "firebase/database";
+import {
+  FirebaseDatabaseProvider,
+  FirebaseDatabaseNode
+} from "@react-firebase/database";
 ReactDOM.render(
   <React.StrictMode>
+      <FirebaseDatabaseProvider firebase={firebase} {...config}>
     <StoreProvider>
      <ThemeProvider theme={theme}>
       <Router>
@@ -17,6 +25,7 @@ ReactDOM.render(
       </Router>
         </ThemeProvider>  
     </StoreProvider>
+    </FirebaseDatabaseProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

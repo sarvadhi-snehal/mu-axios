@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useCallback } from "react";
 import Reviewcard from "./Review";
 import axios from "axios";
 import Grid from "@material-ui/core/Grid";
-
+import firebase from "../../config"
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
+import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   flexView: {
@@ -15,43 +16,67 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ReviewList() {
+  const history = useHistory();
   const classes = useStyles();
-  const [revies, setReviews] = useState([]);
+  const [revies, setReviews] = useState();
   const [loading, setLoading] = useState(true);
+let reviews ;
 
-  const getData = async () => {
-    let response = await axios.get("http://localhost:8000/reviews");
-    console.log(response);
-    setReviews(response.data);
-    setLoading(false);
+reviews =  firebase.database().ref("reviews");
+
+
+useEffect(() => {
+    // reviews =  firebase.database().ref("reviews");
+
+      // let response = await axios.get("http://localhost:8000/reviews");
+      // console.log(response);
+      // setReviews(response.data);  
+     let listner =  reviews.on('value', (snapshot) => {
+        let getData = [];   
+        let data = snapshot.val();
+        
+        for (const property in data) {
+         getData.push({ 
+           fid: property ,...data[property]
+         })
+        }
+        console.log(getData)
+      setReviews(getData)
+      setLoading(false);
+      })
+      return () => reviews.off("value", listner)
+  },[]);
+  console.log(revies)
+  const deleteRequest =  (fid,id) => {
+    // axios.delete(`http://localhost:8000/reviews/${id}`);
+    console.log(id)
+
+
+    // setReviews(revies.filter((review) => review.id !== id));
+    reviews.child(fid).remove();
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const deleteRequest = async (id) => {
-    axios.delete(`http://localhost:8000/reviews/${id}`);
-
-    const newReviews = revies.filter((review) => review.id !== id);
-    setReviews(newReviews);
-  };
+  const editHandler = (fid) =>{
+     history.push({
+       pathname: '/createreview',
+       state : fid
+     })
+  }
 
   let content = loading ? (
     <h1>Loading...</h1>
   ) : (
-    <Grid container spacing={3} className={classes.flexView}>
+    revies.length === 0 ? <h1>CreateOne</h1> :
+ <Grid container spacing={3} className={classes.flexView}>
       {revies.map((review) => (
-        <Grid item xs={12} sm={11} md={6} lg={4} key={review.id}>
-          <Reviewcard
-            key={review.id}
-            title={review.title}
-            body={review.body}
-            id={review.id}
-            feeling={review.feeling}
+  
+          <Reviewcard 
+          key={review.id}
+            review={review}
+          
             deleteHandler={deleteRequest}
+            editHandler={editHandler}
           />
-        </Grid>
+     
       ))}
     </Grid>
   );

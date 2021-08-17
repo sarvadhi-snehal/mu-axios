@@ -7,13 +7,14 @@
   import CardContent from "@material-ui/core/CardContent";
   import CardActions from "@material-ui/core/CardActions";
 
+  import Grid from "@material-ui/core/Grid";
 
   import IconButton from "@material-ui/core/IconButton";
   import Typography from "@material-ui/core/Typography";
   import { red } from "@material-ui/core/colors";
   import FavoriteIcon from "@material-ui/icons/Favorite";
   import ShareIcon from "@material-ui/icons/Share";
-
+  import EditIcon from '@material-ui/icons/Edit';
   import DeleteIcon from "@material-ui/icons/Delete";
   const useStyles = makeStyles((theme) => ({
  
@@ -37,17 +38,19 @@
   }));
 
   export default function ReviewCard({
-    title,
-    feeling,
-    id,
+    review,
     deleteHandler,
-    body,
+    
+
+    editHandler
   }) {
     const classes = useStyles();
     // const [expanded, setExpanded] = React.useState(false);
 
     return (
-      <Card className={classes.root}>
+      <Grid item xs={12} sm={11} md={6} lg={4} >
+
+      <Card className={classes.root} >
         <CardHeader
           // avatar={
           //   <Avatar aria-label="recipe" className={classes.avatar}>
@@ -55,27 +58,28 @@
           //   </Avatar>
           // }
           action={
-            <IconButton aria-label="delete" onClick={() => deleteHandler(id)}>
+            <IconButton aria-label="delete" onClick={() => deleteHandler(review.fid,review.id)}>
               <DeleteIcon />
             </IconButton>
           }
-          title={title}
-          subheader={feeling}
+          title={review.title}
+          subheader={review.feeling}
         />
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {body}
+            {review.body}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
+          <IconButton aria-label="eidt" onClick={() => editHandler(review)}>
+            <EditIcon />
           </IconButton>
         </CardActions>
       </Card>
+      </Grid>
     );
   }

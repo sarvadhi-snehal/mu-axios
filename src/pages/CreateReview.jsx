@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect, useCallback } from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
@@ -7,10 +7,10 @@ import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import axios from 'axios';
-import {useHistory} from 'react-router-dom';
-import Container from "@material-ui/core/Container";
 
+import {useHistory,useLocation} from 'react-router-dom';
+import Container from "@material-ui/core/Container";
+import firebase from '../config.js'
 const useStyles = makeStyles({
   btn: {
     fontSize: 12,
@@ -31,9 +31,14 @@ function CreateReview() {
   const [body, setBody] = useState("");
   const [bodyErr, setBodyErr] = useState(false);
   const [feeling, setFeeling] = useState("Good");
+  const [id,setId] = useState("");
+  const [fid,setFid] = useState("");
+
 
   const classes = useStyles();
-
+  const location = useLocation();
+ let fillUpData = location.state;
+ console.log(fillUpData);
   const handleSubmit = (e) => {
     e.preventDefault();
     setTitleErr(false);
@@ -44,16 +49,41 @@ function CreateReview() {
     if (body === "") {
       setBodyErr(true);
     }
-    
+   
     if (title && body) {
-     axios.post(' http://localhost:8000/reviews',{title, body, feeling }    )
-
+      const reviews = firebase.database().ref("reviews")
+        if(fid !== "") {
+          reviews.child(fid).update({
+            id, title, body, feeling
+          })
+        }
+        else{
+          let review = {id, title, body, feeling }
+          reviews.push(review)
+        }
+    //  axios.post('https://movielist-f7806-default-rtdb.firebaseio.com/reviews',)
+    //  .then(response => console.log(response))
+    //  .catch(err => console.log(err))
+ 
      history.push('/')
      setTitle("");
      setBody("");
     }
   };
-
+  const  filUpForm =() => {
+    if(fillUpData !== undefined){
+    setTitle(fillUpData.title)
+      setBody(fillUpData.body)
+      setFeeling(fillUpData.feeling);
+      setFid(fillUpData.fid);
+      setId(fillUpData.id)
+    }else{
+      return
+    }
+  }
+ useEffect(() => {
+  filUpForm();
+ },[])
   return (
     <Container>
       <Typography variant="h4" color="secondary" gutterBottom={true}>
@@ -61,17 +91,29 @@ function CreateReview() {
       </Typography>
 
       <form noValidate onSubmit={handleSubmit} autoComplete="off"  >
-        <TextField
+      <TextField
             className={classes.field}
-          label="Title"
+          label="Id"
           color="secondary"
           fullWidth
           required
           variant="outlined"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={id}
+          onChange={(e) => setId(e.target.value)}
           error={titleErr}
-        />
+        />   
+        
+         <TextField
+        className={classes.field}
+      label="Title"
+      color="secondary"
+      fullWidth
+      required
+      variant="outlined"
+      value={title}
+      onChange={useCallback((e) => setTitle(e.target.value),[])}
+      error={titleErr}
+    />
 
         <TextField
             className={classes.field}
