@@ -1,20 +1,23 @@
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
+import Badge from "@material-ui/core/Badge";
+import Box from "@material-ui/core/Box";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-
+import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import  AuthContext from '../../store/authStore'
+import AuthContext from "../../store/authStore";
 import Links from "./Links";
-import { useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -23,8 +26,6 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
       zIndex: theme.zIndex.appBar - 1,
-   
-
     },
   },
   appBar: {
@@ -44,13 +45,15 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    top:58
-
-   
+    top: 58,
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  flex: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
@@ -67,20 +70,21 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+    const loginHadler = () => {
+      history.push('/signup')
+    }
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  const logoutHandler =() => {
+  const logoutHandler = () => {
     authCtx.logout();
-    history.replace('/')
-
-  }
+    history.replace("/");
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
 
       <AppBar position="fixed" className={classes.appBar}>
-        
-        <Toolbar>
+        <Toolbar className={classes.flex}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -90,10 +94,20 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap href="/">
             Review
           </Typography>
-          {isLogin && <Button onClick={logoutHandler} >logOut</Button>}
+          <Badge variant="dot">
+            {isLogin ? (
+              <Tooltip title="Log out" >
+                <ExitToAppIcon  onClick={logoutHandler}/>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Log in">
+                <ExitToAppIcon onClick={loginHadler}/>
+              </Tooltip>
+            )}
+          </Badge>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

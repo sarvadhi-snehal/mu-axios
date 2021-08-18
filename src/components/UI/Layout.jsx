@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme)=>({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    marginTop: "5rem",
+    width: '100%'
   },
 
 }))
@@ -37,8 +39,7 @@ export default function Layout({ children }) {
 
       <Drawer handleDrawerOpen={handleDrawerOpen } handleDrawerClose={handleDrawerClose} open={open} drawerWidth={drawerWidth} />
       <main className={classes.content}>
-  
-        <div className={classes.toolbar} />
+
          {children}
       </main>
     </div>

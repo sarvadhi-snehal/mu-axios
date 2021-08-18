@@ -1,4 +1,4 @@
-import { useState,useEffect, useCallback } from "react";
+import { useState,useEffect, useContext , useCallback } from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
@@ -7,10 +7,11 @@ import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
+import AuthContext from '../store/authStore'
 import {useHistory,useLocation} from 'react-router-dom';
 import Container from "@material-ui/core/Container";
-import firebase from '../config.js'
+import firebase from '../config.js';
+import { Transition } from 'react-transition-group';
 const useStyles = makeStyles({
   btn: {
     fontSize: 12,
@@ -25,6 +26,9 @@ const useStyles = makeStyles({
 }
 });
 function CreateReview() {
+  const authCtx = useContext(AuthContext);
+  let user = authCtx.user;
+  console.log(user)
     const history = useHistory();
   const [title, setTitle] = useState("");
   const [titleErr, setTitleErr] = useState(false);
@@ -34,6 +38,7 @@ function CreateReview() {
   const [id,setId] = useState("");
   const [fid,setFid] = useState("");
 
+  const duration = 300
 
   const classes = useStyles();
   const location = useLocation();
@@ -58,7 +63,7 @@ function CreateReview() {
           })
         }
         else{
-          let review = {id, title, body, feeling }
+          let review = {id, title, body, feeling,user }
           reviews.push(review)
         }
     //  axios.post('https://movielist-f7806-default-rtdb.firebaseio.com/reviews',)

@@ -27,7 +27,7 @@ function App() {
   const isLogin = authCtx.isLogin;
   return (
     <div className="App">
-      <Header />
+      {/* <Header /> */}
         <Layout>
       <Switch>
           <Route path="/" exact>
