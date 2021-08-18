@@ -41,9 +41,7 @@ export default function ButtonAppBar() {
               </Badge>
             </IconButton>
             <IconButton color="inherit">
-              <Badge badgeContent={0} color="secondary">
-                <ExitToAppIcon />
-              </Badge>
+             
             </IconButton>
           </Box>
        
