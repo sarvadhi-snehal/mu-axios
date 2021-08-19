@@ -34,10 +34,7 @@ export default function Links() {
       href: "/createreview",
       primary: "Create New",
     },
-    {
-      href: "/signup",
-      primary: "Sign Up / Sign In",
-    },
+
     {
       href:"/profile",
       primary: "Profile"

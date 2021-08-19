@@ -17,7 +17,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AuthContext from "../../store/authStore";
 import Links from "./Links";
 import { useHistory } from "react-router-dom";
-
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -70,9 +70,9 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
-    const loginHadler = () => {
-      history.push('/signup')
-    }
+  const loginHadler = () => {
+    history.push("/signup");
+  };
   const container =
     window !== undefined ? () => window().document.body : undefined;
   const logoutHandler = () => {
@@ -99,13 +99,16 @@ function ResponsiveDrawer(props) {
           </Typography>
           <Badge variant="dot">
             {isLogin ? (
-              <Tooltip title="Log out" >
-                <ExitToAppIcon  onClick={logoutHandler}/>
+              <Tooltip variant="outlined" title="Log out">
+
+              <FaSignOutAlt onClick={logoutHandler} />
               </Tooltip>
             ) : (
-              <Tooltip title="Log in">
-                <ExitToAppIcon onClick={loginHadler}/>
+              <Tooltip variant="outlined" title="Log in">
+
+              <FaSignInAlt onClick={loginHadler} />
               </Tooltip>
+
             )}
           </Badge>
         </Toolbar>

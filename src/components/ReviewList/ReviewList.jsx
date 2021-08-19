@@ -46,7 +46,7 @@ useEffect(() => {
       })
       return () => reviews.off("value", listner)
   },[]);
- 
+  
   const deleteRequest =  (fid,id) => {
     // axios.delete(`http://localhost:8000/reviews/${id}`);
 

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Card from "@material-ui/core/Card";
@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import AuthContext from '../../store/authStore'
+import AuthContext from "../../store/authStore";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +34,21 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  good: {
+    border: "1px solid green",
+  },
+  bad: {
+    border: "1px solid red",
+  },
+  ugly: {
+    border: "1px solid yellow",
+  },
+  dNone: {
+    display: "none",
+  },
+  red:{
+    color: "red"
+  }
 }));
 
 export default function ReviewCard({
@@ -46,10 +61,21 @@ export default function ReviewCard({
   // const [expanded, setExpanded] = React.useState(false);
   const authCtx = useContext(AuthContext);
   const email = authCtx.user;
- 
+  const isLogin = authCtx.isLogin;
+  const [isLike,setisLike] = useState(false)
+  let cardBorder =
+    review.feeling === "good"
+      ? classes.good
+      : review.feeling === "bad"
+      ? classes.bad
+      : classes.ugly;
+  let autModify = !isLogin ? "" : review.user !== email ? classes.dNone : "";
+  const handleLike = () => {
+      setisLike(!isLike)
+  }
   return (
     <Grid item xs={12} sm={11} md={6} lg={4}>
-      <Card className={classes.root}>
+      <Card className={cardBorder}>
         <CardHeader
           // avatar={
           //   <Avatar aria-label="recipe" className={classes.avatar}>
@@ -59,7 +85,7 @@ export default function ReviewCard({
           action={
             <IconButton
               aria-label="delete"
-              disabled={review.user !== email && true}
+              className={autModify}
               onClick={() => deleteHandler(review.fid, review.id)}
             >
               <DeleteIcon />
@@ -75,10 +101,17 @@ export default function ReviewCard({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites"
+          className={isLike && classes.red}
+          onClick={handleLike}
+          >
             <FavoriteIcon />
           </IconButton>
-          <IconButton disabled={review.user !== email && true} aria-label="eidt" onClick={() => editHandler(review)}>
+          <IconButton
+            className={autModify}
+            aria-label="eidt"
+            onClick={() => editHandler(review)}
+          >
             <EditIcon />
           </IconButton>
         </CardActions>
