@@ -99,15 +99,19 @@ function ResponsiveDrawer(props) {
           </Typography>
           <Badge variant="dot">
             {isLogin ? (
-              <Tooltip variant="outlined" title="Log out">
-
-              <FaSignOutAlt onClick={logoutHandler} />
-              </Tooltip>
+           
+              <Button color="inherit"
+              startIcon={<FaSignOutAlt/>}
+              onClick={logoutHandler} >
+                Log out
+              </Button>
+         
             ) : (
-              <Tooltip variant="outlined" title="Log in">
-
-              <FaSignInAlt onClick={loginHadler} />
-              </Tooltip>
+           
+              <Button color="inherit"
+              startIcon={<FaSignInAlt/>}
+              onClick={loginHadler} />
+             
 
             )}
           </Badge>

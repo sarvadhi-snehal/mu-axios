@@ -61,15 +61,18 @@ export default function ReviewCard({
   // const [expanded, setExpanded] = React.useState(false);
   const authCtx = useContext(AuthContext);
   const email = authCtx.user;
+  console.log(email)
+  console.log(review.user)
   const isLogin = authCtx.isLogin;
+  console.log(isLogin)
   const [isLike,setisLike] = useState(false)
-  let cardBorder =
+  let cardBorder = 
     review.feeling === "good"
       ? classes.good
       : review.feeling === "bad"
       ? classes.bad
       : classes.ugly;
-  let autModify = !isLogin ? "" : review.user !== email ? classes.dNone : "";
+      let autModify = isLogin ? review.user !== email ? classes.dNone : "" : classes.dNone 
   const handleLike = () => {
       setisLike(!isLike)
   }
@@ -88,7 +91,7 @@ export default function ReviewCard({
               className={autModify}
               onClick={() => deleteHandler(review.fid, review.id)}
             >
-              <DeleteIcon />
+              <DeleteIcon className={classes.red}/>
             </IconButton>
           }
           title={review.title}
