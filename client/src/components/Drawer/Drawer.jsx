@@ -101,7 +101,7 @@ function ResponsiveDrawer(props) {
             {isLogin ? (
            
               <Button color="inherit"
-              startIcon={<FaSignOutAlt/>}
+              endIcon={<FaSignOutAlt/>}
               onClick={logoutHandler} >
                 Log out
               </Button>
