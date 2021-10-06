@@ -1,10 +1,9 @@
+/** @format */
+
 import "./App.css";
-
 import { Route, Switch } from "react-router-dom";
-  import { useContext } from "react";
-  import AuthContext from "./store/authStore";
-
-
+import { useContext } from "react";
+import AuthContext from "./store/authStore";
 
 //themes
 // import theme from "./Themes/theme";
@@ -19,48 +18,44 @@ import Profile from "./pages/Profile";
 //component import
 import Header from "./components/Header/Header";
 import Sign from "./components/UserForm/Sign";
-
-//store
-
+import { Container } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 function App() {
+  const dispatch = useDispatch();
   const authCtx = useContext(AuthContext);
   const isLogin = authCtx.isLogin;
+
   return (
-    <div className="App">
+    <Container maxidth="lg">
       {/* <Header /> */}
-        <Layout>
-      <Switch>
+      <Layout>
+        <Switch>
           <Route path="/" exact>
             <Home />
           </Route>
 
-     
-            <Route path="/createreview">
-            {isLogin &&  <CreateReview />}
-            {!isLogin &&  <Sign />}
-            </Route>
-        
+          <Route path="/createreview">
+            <CreateReview />
+            {isLogin && <CreateReview />}
+            {/* {!isLogin && <Sign />} */}
+          </Route>
 
-         
-            <Route path="/signup">
-              <Sign />
-            </Route>
+          <Route path="/signup">
+            <Sign />
+          </Route>
 
-
-   
-            <Route path="/profile">
-               {isLogin &&  <Profile />}
-            {!isLogin &&  <Sign />}
-        
-            </Route>
-{/* 
+          <Route path="/profile">
+            {isLogin && <Profile />}
+            {!isLogin && <Sign />}
+          </Route>
+          {/* 
         <Route path="*">
         <NoMatch />
       </Route>  */}
-      </Switch>
-        </Layout>
-    </div>
-
+        </Switch>
+      </Layout>
+    </Container>
   );
 }
 
