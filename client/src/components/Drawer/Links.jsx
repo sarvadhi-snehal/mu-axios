@@ -1,10 +1,12 @@
+/** @format */
+
 import React from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import ListItemText from "@material-ui/core/ListItemText";
-
+import { Link } from "@material-ui/core/Link";
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     "& > * + *": {
@@ -19,7 +21,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 // }));
 
 function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
+  return <ListItem button component={Link} {...props} />;
 }
 
 export default function Links() {
@@ -28,15 +30,15 @@ export default function Links() {
   const links = [
     {
       href: "/",
-      primary: "Home",
+      primary: "Home"
     },
     {
       href: "/createreview",
-      primary: "Create New",
+      primary: "Create New"
     },
 
     {
-      href:"/profile",
+      href: "/profile",
       primary: "Profile"
     }
   ];
@@ -47,7 +49,6 @@ export default function Links() {
   ));
 
   return (
-     
     <List component="nav" aria-label="secondary mailbox folders">
       {linkContent}
     </List>
