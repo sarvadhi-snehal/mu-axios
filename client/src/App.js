@@ -37,7 +37,7 @@ function App() {
 
           <Route path="/createreview">
             <CreateReview />
-            {isLogin && <CreateReview />}
+            {/* {isLogin && <CreateReview />} */}
             {/* {!isLogin && <Sign />} */}
           </Route>
 
@@ -46,8 +46,9 @@ function App() {
           </Route>
 
           <Route path="/profile">
-            {isLogin && <Profile />}
-            {!isLogin && <Sign />}
+            <h1> hello</h1>
+            {/* <Profile />
+            {!isLogin && <Sign />} */}
           </Route>
           {/* 
         <Route path="*">
