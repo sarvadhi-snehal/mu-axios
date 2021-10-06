@@ -17,8 +17,8 @@ const BlogScehma = Schema({
     required: true
   },
   createBy: {
-    type: Schema.Types.ObjectId,
-    required: true
+    type: Schema.Types.ObjectId
+    // required: true
   },
   likes: [
     {

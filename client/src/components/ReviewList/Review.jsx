@@ -1,3 +1,5 @@
+/** @format */
+
 import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -19,63 +21,62 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: "56.25%" // 16:9
   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
+      duration: theme.transitions.duration.shortest
+    })
   },
   expandOpen: {
-    transform: "rotate(180deg)",
+    transform: "rotate(180deg)"
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: red[500]
   },
   good: {
-    border: "1px solid green",
+    border: "1px solid green"
   },
   bad: {
-    border: "1px solid red",
+    border: "1px solid red"
   },
   ugly: {
-    border: "1px solid yellow",
+    border: "1px solid yellow"
   },
   dNone: {
-    display: "none",
+    display: "none"
   },
-  red:{
+  red: {
     color: "red"
   }
 }));
 
-export default function ReviewCard({
-  review,
-  deleteHandler,
-
-  editHandler,
-}) {
+export default function ReviewCard({ review, deleteHandler, editHandler }) {
   const classes = useStyles();
   // const [expanded, setExpanded] = React.useState(false);
   const authCtx = useContext(AuthContext);
-  const email = authCtx.user;
-  console.log(email)
-  console.log(review.user)
+  // const email = authCtx.user;
+  // console.log(email);
+  // console.log(review.user);
   const isLogin = authCtx.isLogin;
-  console.log(isLogin)
-  const [isLike,setisLike] = useState(false)
-  let cardBorder = 
+
+  const [isLike, setisLike] = useState(false);
+  let cardBorder =
     review.feeling === "good"
       ? classes.good
       : review.feeling === "bad"
       ? classes.bad
       : classes.ugly;
-      let autModify = isLogin ? review.user !== email ? classes.dNone : "" : classes.dNone 
+  // let autModify = isLogin
+  //   ? review.user !== email
+  //     ? classes.dNone
+  //     : ""
+  //   : classes.dNone;
   const handleLike = () => {
-      setisLike(!isLike)
-  }
+    setisLike(!isLike);
+  };
   return (
     <Grid item xs={12} sm={11} md={6} lg={4}>
       <Card className={cardBorder}>
@@ -88,10 +89,10 @@ export default function ReviewCard({
           action={
             <IconButton
               aria-label="delete"
-              className={autModify}
-              onClick={() => deleteHandler(review.fid, review.id)}
+              // className={autModify}
+              onClick={() => deleteHandler(review._id)}
             >
-              <DeleteIcon className={classes.red}/>
+              <DeleteIcon className={classes.red} />
             </IconButton>
           }
           title={review.title}
@@ -104,14 +105,15 @@ export default function ReviewCard({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites"
-          className={isLike && classes.red}
-          onClick={handleLike}
+          {/* <IconButton
+            aria-label="add to favorites"
+            className={isLike && classes.red}
+            onClick={handleLike}
           >
             <FavoriteIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
-            className={autModify}
+            // className={autModify}
             aria-label="eidt"
             onClick={() => editHandler(review)}
           >

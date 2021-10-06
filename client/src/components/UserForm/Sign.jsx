@@ -1,39 +1,38 @@
-import { useState,useContext } from "react";
+/** @format */
+
+import { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
-import {useHistory} from 'react-router-dom'
-import firebase from '../../config.js';
+import { useHistory } from "react-router-dom";
+// import firebase from '../../config.js';
 
-import AuthContext from '../../store/authStore'
+import AuthContext from "../../store/authStore";
 const useStyles = makeStyles({
   card: {
-    marginTop: "1rem",
+    marginTop: "1rem"
   },
   form: {
     padding: "1rem",
     display: "flex",
-    flexDirection: "column",
-
+    flexDirection: "column"
   },
-  field:{
+  field: {
     margin: 10,
-    width: '90%'
-}
-  
+    width: "90%"
+  }
 });
 function Sign() {
-    const authCtx = useContext(AuthContext);
-    const history = useHistory();
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const  fileHandler =(e)=>{
-      console.log(e.target.files[0].name)
-      sign &&  firebase.database().ref("reviews")
-     
-  }
+  const fileHandler = (e) => {
+    console.log(e.target.files[0].name);
+    // sign &&  firebase.database().ref("reviews")
+  };
   const [sign, setSign] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const submitHandler = (e) => {
@@ -46,21 +45,22 @@ function Sign() {
       .post(url, {
         email,
         password,
-        returnSecureToken: true,
+        returnSecureToken: true
       })
       .then((res) => {
-       
-        const expTime =  new Date(new Date().getTime() + (+res.data.expiresIn * 1000))
+        const expTime = new Date(
+          new Date().getTime() + +res.data.expiresIn * 1000
+        );
         authCtx.login(res.data.idToken, res.data.email, expTime.toISOString());
-   
+
         setSign(true);
-     
-        history.replace('/' )
+
+        history.replace("/");
       })
       .catch((err) => {
         setErrorMessage(err.response.data.error.message);
         console.log(err.response);
-        console.log(err)
+        console.log(err);
       });
   };
 
@@ -77,8 +77,7 @@ function Sign() {
           onSubmit={submitHandler}
         >
           <TextField
-           className={classes.field}
-           
+            className={classes.field}
             label="Email"
             type="email"
             id="username"
@@ -89,7 +88,7 @@ function Sign() {
           />
 
           <TextField
-           className={classes.field}
+            className={classes.field}
             label="Password"
             id="password"
             type="password"
