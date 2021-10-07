@@ -1,7 +1,10 @@
 /** @format */
 
 import express from "express";
+import { createUser, loginUser } from "../controllers/user.js";
 const router = express.Router();
 
-//@Route for get us
+router.post("/", createUser);
+router.post("/", loginUser);
+
 export default router;

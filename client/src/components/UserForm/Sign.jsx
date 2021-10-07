@@ -7,9 +7,12 @@ import { makeStyles } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+
 // import firebase from '../../config.js';
 
 import AuthContext from "../../store/authStore";
+import { createUser, loginUser } from "../../actions/users";
+import { useDispatch } from "react-redux";
 const useStyles = makeStyles({
   card: {
     marginTop: "1rem"
@@ -28,6 +31,7 @@ function Sign() {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const fileHandler = (e) => {
     console.log(e.target.files[0].name);
@@ -35,33 +39,19 @@ function Sign() {
   };
   const [sign, setSign] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
     let url = "";
-    sign
-      ? (url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE}`)
-      : (url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE}`);
-    axios
-      .post(url, {
-        email,
-        password,
-        returnSecureToken: true
-      })
-      .then((res) => {
-        const expTime = new Date(
-          new Date().getTime() + +res.data.expiresIn * 1000
-        );
-        authCtx.login(res.data.idToken, res.data.email, expTime.toISOString());
+    const newuser = {
+      name,
+      email,
+      password
+    };
+    const user = { email, password };
+    sign ? dispatch(createUser(newuser)) : dispatch(loginUser(user));
 
-        setSign(true);
-
-        history.replace("/");
-      })
-      .catch((err) => {
-        setErrorMessage(err.response.data.error.message);
-        console.log(err.response);
-        console.log(err);
-      });
+    // history.replace("/");
   };
 
   const swapSignButton = () => {
@@ -76,6 +66,19 @@ function Sign() {
           className={classes.form}
           onSubmit={submitHandler}
         >
+          {" "}
+          {sign ? (
+            <TextField
+              className={classes.field}
+              label="Name"
+              type="name"
+              id="name"
+              required
+              variant="outlined"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          ) : null}
           <TextField
             className={classes.field}
             label="Email"
@@ -86,7 +89,6 @@ function Sign() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-
           <TextField
             className={classes.field}
             label="Password"
@@ -101,7 +103,6 @@ function Sign() {
           {/* {sign &&   <input type="file" onChange={fileHandler}/>
           
           } */}
-
           <Button type="submit" variant="outlined" color="secondary">
             {sign ? "Sign up" : "sign in"}
           </Button>

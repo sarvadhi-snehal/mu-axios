@@ -60,7 +60,7 @@ export default function ReviewList() {
   };
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [dispatch, posts]);
+  }, [dispatch]);
 
   return (
     <Grid container spacing={3} className={classes.flexView}>

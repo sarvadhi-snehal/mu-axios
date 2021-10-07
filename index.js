@@ -10,7 +10,7 @@ import PostRoutes from "./routes/Posts.js";
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use("/api/users", UserRoutes);
+app.use("/api/user", UserRoutes);
 app.use("/api/post", PostRoutes);
 
 if (process.env.NODE_ENV === "production") {
