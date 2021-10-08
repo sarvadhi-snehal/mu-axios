@@ -21,11 +21,14 @@ import Sign from "./components/UserForm/Sign";
 import { Container } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { loadUser } from "./actions/users";
 function App() {
   const dispatch = useDispatch();
-  const authCtx = useContext(AuthContext);
-  const isLogin = authCtx.isLogin;
-
+  // const authCtx = useContext(AuthContext);
+  // const isLogin = authCtx.isLogin;
+  useEffect(() => {
+    dispatch(loadUser());
+  });
   return (
     <Container maxidth="lg">
       {/* <Header /> */}

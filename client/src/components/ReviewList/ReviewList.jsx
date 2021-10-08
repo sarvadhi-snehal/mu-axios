@@ -9,7 +9,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deletePost, getAllPosts } from "../../actions/posts";
+import { deletePost, getAllPosts, likePost } from "../../actions/posts";
 const useStyles = makeStyles((theme) => ({
   flexView: {
     display: "flex",
@@ -20,10 +20,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReviewList() {
   const posts = useSelector((state) => state.posts);
+  console.log("posts dsad", posts);
   const history = useHistory();
   const classes = useStyles();
   // const [revies, setReviews] = useState();
-  const [loading, setLoading] = useState(true);
+  const [id, setId] = useState();
   let reviews;
 
   //   // let response = await axios.get("http://localhost:8000/reviews");
@@ -46,11 +47,13 @@ export default function ReviewList() {
   //   return () => reviews.off("value", listner);
   // }, []);
   const dispatch = useDispatch();
-  const deleteRequest = (id) => {
+  const deleteRequest = () => {
     // axios.delete(`http://localhost:8000/reviews/${id}`);
     // setReviews(revies.filter((review) => review.id !== id));
     // reviews.child(fid).remove();
+
     dispatch(deletePost(id));
+    setId(null);
   };
   const editHandler = (id) => {
     history.push({
@@ -58,21 +61,27 @@ export default function ReviewList() {
       state: id
     });
   };
+  const handleLike = (id) => {
+    dispatch(likePost(id));
+  };
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     <Grid container spacing={3} className={classes.flexView}>
       {!posts.length ? (
-        <CircularProgress />
+        <h1>loading</h1>
       ) : (
+        // <CircularProgress />
         posts?.map((review) => (
           <Reviewcard
             key={review._id}
             review={review}
             deleteHandler={deleteRequest}
             editHandler={editHandler}
+            handleLike={handleLike}
+            setId={setId}
           />
         ))
       )}

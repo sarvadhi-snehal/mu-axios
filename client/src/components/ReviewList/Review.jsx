@@ -18,6 +18,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import AuthContext from "../../store/authStore";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { useDispatch } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
@@ -53,7 +54,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ReviewCard({ review, deleteHandler, editHandler }) {
+export default function ReviewCard({
+  review,
+  deleteHandler,
+  editHandler,
+  handleLike,
+  setId
+}) {
   const classes = useStyles();
   // const [expanded, setExpanded] = React.useState(false);
   const authCtx = useContext(AuthContext);
@@ -61,7 +68,7 @@ export default function ReviewCard({ review, deleteHandler, editHandler }) {
   // console.log(email);
   // console.log(review.user);
   const isLogin = authCtx.isLogin;
-
+  const dispatch = useDispatch();
   const [isLike, setisLike] = useState(false);
   let cardBorder =
     review.feeling === "good"
@@ -74,9 +81,7 @@ export default function ReviewCard({ review, deleteHandler, editHandler }) {
   //     ? classes.dNone
   //     : ""
   //   : classes.dNone;
-  const handleLike = () => {
-    setisLike(!isLike);
-  };
+
   return (
     <Grid item xs={12} sm={11} md={6} lg={4}>
       <Card className={cardBorder}>
@@ -90,7 +95,10 @@ export default function ReviewCard({ review, deleteHandler, editHandler }) {
             <IconButton
               aria-label="delete"
               // className={autModify}
-              onClick={() => deleteHandler(review._id)}
+              onClick={() => {
+                setId(review._id);
+                deleteHandler();
+              }}
             >
               <DeleteIcon className={classes.red} />
             </IconButton>
@@ -105,13 +113,13 @@ export default function ReviewCard({ review, deleteHandler, editHandler }) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {/* <IconButton
+          <IconButton
             aria-label="add to favorites"
-            className={isLike && classes.red}
-            onClick={handleLike}
+            className={classes.red}
+            onClick={() => handleLike(review._id)}
           >
             <FavoriteIcon />
-          </IconButton> */}
+          </IconButton>
           <IconButton
             // className={autModify}
             aria-label="eidt"

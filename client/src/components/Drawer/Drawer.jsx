@@ -1,3 +1,5 @@
+/** @format */
+
 import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
@@ -18,6 +20,8 @@ import AuthContext from "../../store/authStore";
 import Links from "./Links";
 import { useHistory } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../actions/users";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -25,42 +29,44 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
-      zIndex: theme.zIndex.appBar - 1,
-    },
+      zIndex: theme.zIndex.appBar - 1
+    }
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
       // width: `calc(100% - ${drawerWidth}px)`,
-      zIndex: theme.zIndex.drawer + 1,
+      zIndex: theme.zIndex.drawer + 1
       // marginLeft: drawerWidth,
-    },
+    }
   },
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
+      display: "none"
+    }
   },
 
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    top: 58,
+    top: 58
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(3)
   },
   flex: {
     display: "flex",
-    justifyContent: "space-between",
-  },
+    justifyContent: "space-between"
+  }
 }));
 
 function ResponsiveDrawer(props) {
   const history = useHistory();
-  const authCtx = useContext(AuthContext);
-  const isLogin = authCtx.isLogin;
+  // const authCtx = useContext(AuthContext);
+  // const isLogin = authCtx.isLogin;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -76,8 +82,8 @@ function ResponsiveDrawer(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
   const logoutHandler = () => {
-    authCtx.logout();
-    history.replace("/");
+    // authCtx.logout();
+    dispatch(logOut(history));
   };
   return (
     <div className={classes.root}>
@@ -98,21 +104,22 @@ function ResponsiveDrawer(props) {
             Review
           </Typography>
           <Badge variant="dot">
-            {isLogin ? (
-           
-              <Button color="inherit"
-              endIcon={<FaSignOutAlt/>}
-              onClick={logoutHandler} >
-                Log out
+            {isLoggedIn ? (
+              <Button
+                color="inherit"
+                endIcon={<FaSignOutAlt />}
+                onClick={logoutHandler}
+              >
+                user
               </Button>
-         
             ) : (
-           
-              <Button color="inherit"
-              startIcon={<FaSignInAlt/>}
-              onClick={loginHadler} />
-             
-
+              <Button
+                color="inherit"
+                startIcon={<FaSignInAlt />}
+                onClick={loginHadler}
+              >
+                Login
+              </Button>
             )}
           </Badge>
         </Toolbar>
@@ -126,10 +133,10 @@ function ResponsiveDrawer(props) {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true // Better open performance on mobile.
             }}
           >
             <Links />
@@ -138,7 +145,7 @@ function ResponsiveDrawer(props) {
         <Hidden xsDown implementation="css">
           <Drawer
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
             variant="permanent"
             open
@@ -152,7 +159,7 @@ function ResponsiveDrawer(props) {
 }
 
 ResponsiveDrawer.propTypes = {
-  window: PropTypes.func,
+  window: PropTypes.func
 };
 
 export default ResponsiveDrawer;

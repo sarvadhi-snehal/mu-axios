@@ -10,7 +10,8 @@ import {
   GET_ALL_POSTS,
   CREATE_POST,
   DELETE_POST,
-  EDIT_POST
+  EDIT_POST,
+  LIkE_POST
 } from "../actions/types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -25,6 +26,10 @@ export default (posts = [], action) => {
       return posts.filter((post) => post.id !== payload);
     case EDIT_POST:
       return posts.map((post) => (post._id === payload._id ? payload : post));
+    case LIkE_POST:
+      return posts.map((post) =>
+        post._id === payload.id ? { ...post, like: payload.like } : post
+      );
     default:
       return posts;
   }

@@ -42,16 +42,16 @@ function Sign() {
   const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
-    let url = "";
+
     const newuser = {
       name,
       email,
       password
     };
     const user = { email, password };
-    sign ? dispatch(createUser(newuser)) : dispatch(loginUser(user));
-
-    // history.replace("/");
+    sign
+      ? dispatch(createUser(newuser, history))
+      : dispatch(loginUser(user, history));
   };
 
   const swapSignButton = () => {

@@ -73,7 +73,7 @@ function CreateReview() {
         dispatch(createPost(post));
       }
     }
-    history.push("/");
+    history.replace("/");
     setTitle("");
     setId("");
     setBody("");
